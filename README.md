@@ -1,3 +1,12 @@
+> **This is a modified fork.** [LearnHarness](https://github.com/amosblomqvist/learnharness) was created by
+> **Amos Blomqvist** ([@amosblomqvist](https://github.com/amosblomqvist)) and its contributors. All credit for the app goes to them.
+> This version, by Parth Takkar ([@p42rthicle](https://github.com/p42rthicle)), is LearnHarness 0.7.0 plus the
+> [Semester plugin](plugins/semester/) (installed separately, see its README). It is independent and not endorsed by the original project.
+> Same license: [AGPL-3.0](LICENSE). What changed: [NOTICE.md](NOTICE.md).
+>
+> To get the official app, use [learnharness.ai](https://learnharness.ai). The download, issue and Discord links below,
+> and the security contact, belong to the original project; please don't report problems with this fork there.
+
 <p align="center">
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="docs/assets/lh_banner_dark.png">
