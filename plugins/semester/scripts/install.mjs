@@ -1,5 +1,5 @@
 // Copies dist/ into LearnHarness's plugins folder (<plugins>/semester/dist/), keeping <plugins>/semester/data/.
-// Usage: node scripts/install.mjs [--data-dir <LearnHarness data dir>]   (default: the installed app's data)
+// Usage: node scripts/install.mjs [--data-dir <LearnHarness data dir>]   (default: this fork's app, Lernwerk)
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
@@ -7,7 +7,7 @@ import { fileURLToPath } from 'node:url';
 
 const HERE = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const i = process.argv.indexOf('--data-dir');
-const dataDir = i > 0 ? process.argv[i + 1] : path.join(os.homedir(), 'Library/Application Support/LearnHarness/data');
+const dataDir = i > 0 ? process.argv[i + 1] : path.join(os.homedir(), 'Library/Application Support/Lernwerk/data');
 const target = path.join(dataDir, 'plugins', 'semester');
 const src = path.join(HERE, 'dist');
 if (!fs.existsSync(path.join(src, 'manifest.json'))) throw new Error('Run the build first (npm run build)');

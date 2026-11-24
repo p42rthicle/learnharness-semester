@@ -1,0 +1,17 @@
+# This fork's macOS build: own name and app ID (runs beside the official app), ad-hoc signed, no update feed.
+# Everything else comes from the upstream config.
+extends: electron-builder.yml
+appId: io.github.p42rthicle.lernwerk
+productName: Lernwerk
+directories:
+  output: dist/lernwerk
+mac:
+  # The .icns instead of the layered icon, which needs Xcode 26.
+  icon: build/icon.icns
+  # "-" = ad-hoc signature (no Apple Developer account). Library validation would reject it under the hardened runtime.
+  identity: "-"
+  hardenedRuntime: false
+  notarize: false
+  extendInfo:
+    NSMicrophoneUsageDescription: "Lernwerk uses the microphone only for speech-to-text input into your sessions."
+publish: null

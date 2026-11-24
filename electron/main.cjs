@@ -43,7 +43,7 @@ const path = require("node:path");
 // renderer owns the number; this is the IPC widen target).
 const SIDEBAR_AUTOCLOSE = 928;
 
-const PRODUCT_NAME = "LearnHarness";
+const { PRODUCT_NAME, UPDATES_ENABLED } = require("./product.cjs");
 
 // APP NAME → userData (owner, 2026-10-10): the Application Support dir is
 // exactly "LearnHarness" in dev AND packaged. Packaged Electron would
@@ -527,6 +527,7 @@ function checkForUpdates({ manual = false } = {}) {
 }
 
 function installUpdateNow() {
+	if (!UPDATES_ENABLED) return; // never stop the server for an update that cannot come
 	// Kill the server BEFORE the quit-and-install (see block comment).
 	try {
 		killServer();
@@ -537,6 +538,11 @@ function installUpdateNow() {
 }
 
 function setupAutoUpdater() {
+	if (!UPDATES_ENABLED) {
+		log("auto-update: off in this fork");
+		reportUpdateStatus("disabled");
+		return;
+	}
 	if (!app.isPackaged) {
 		log("auto-update: dev build — updater disabled");
 		reportUpdateStatus("disabled");
@@ -621,7 +627,7 @@ function installMenu() {
 			submenu: [
 				{ role: "about" },
 				// Manual checks report their result in Settings → General.
-				{ label: "Check for Updates…", click: () => checkForUpdatesFromMenu() },
+				...(UPDATES_ENABLED ? [{ label: "Check for Updates…", click: () => checkForUpdatesFromMenu() }] : []),
 				{ type: "separator" },
 				{ role: "hide" },
 				{ role: "hideOthers" },

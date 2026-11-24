@@ -20,5 +20,6 @@ Modified by Parth Takkar ([@p42rthicle](https://github.com/p42rthicle)), from 24
 | --- | --- |
 | 2026-11-24 | Added the **Semester** plugin in [`plugins/semester/`](plugins/semester/): questions across a semester's classes with page citations, Moodle deadlines, class tutors. Copyright (C) 2026 Parth Takkar, AGPL-3.0-only. |
 | 2026-11-24 | Added this notice and the fork note at the top of the README. |
+| 2026-11-24 | The desktop app is called **Lernwerk** here, with its own bundle ID and profile folder (`electron/product.cjs`, `electron-builder.lernwerk.yml`, `scripts/build-lernwerk.sh`, `npm run lernwerk:build`). The in-app updater is off (`electron/main.cjs`, with a test). |
 
 Everything else is the original LearnHarness 0.7.0 code, copyright (C) its authors.

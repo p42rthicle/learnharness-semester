@@ -13,7 +13,7 @@ const mainFile = fileURLToPath(new URL("../electron/main.cjs", import.meta.url))
 const mainSource = readFileSync(mainFile, "utf8");
 const mainRequire = createRequire(mainFile);
 
-function fixture({ packaged = true, updaterMissing = false } = {}) {
+function fixture({ packaged = true, updaterMissing = false, updatesEnabled = true } = {}) {
 	let settings: string | Error = JSON.stringify({ version: 1, general: { autoUpdate: true } });
 	const settingsReads: string[] = [];
 	const order: string[] = [];
@@ -89,6 +89,7 @@ function fixture({ packaged = true, updaterMissing = false } = {}) {
 	const context = createContext({
 		require: (id: string) => {
 			if (id === "electron") return electron;
+			if (id === "./product.cjs") return { PRODUCT_NAME: "LearnHarness", UPDATES_ENABLED: updatesEnabled };
 			// The actual dev readiness helper is tested separately; keep this
 			// updater shell fixture entirely offline and already ready.
 			if (id === "./dev-server-readiness.cjs") return { waitForDevServer: async () => {} };
@@ -155,6 +156,19 @@ describe("automatic-update preference gate", () => {
 			assert.equal(f.updater.checks, 1);
 		});
 	}
+
+	it("this fork: updates are off, the updater never loads and the menu offers no check", async () => {
+		assert.equal(mainRequire("./product.cjs").UPDATES_ENABLED, false);
+		const f = fixture({ updatesEnabled: false });
+		f.run("setupAutoUpdater()"); await f.check(); await f.check(true);
+		assert.equal(f.run("autoUpdater"), null);
+		assert.equal(f.updater.checks, 0);
+		assert.equal(f.state().status, "disabled");
+		f.run("installMenu()");
+		assert.throws(() => f.menuCheck(), TypeError); // no such menu item
+		f.run("serverProcess = fixtureChild; installUpdateNow()");
+		assert.deepEqual(f.order, []); // neither stops the server nor installs
+	});
 
 	it("re-reads the setting on each check, without triggering a check merely when saved", async () => {
 		const f = fixture(); f.run("setupAutoUpdater()");

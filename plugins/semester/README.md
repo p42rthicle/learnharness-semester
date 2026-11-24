@@ -72,7 +72,7 @@ LearnHarness's own lessons (prober, teacher, practice) also get the course searc
 npm install
 npm test                     # offline: made-up course, fake LearnHarness host, mock Anthropic API
 npm run build                # dist/
-node scripts/install.mjs     # into ~/Library/Application Support/LearnHarness/data/plugins/semester/dist (data kept)
+node scripts/install.mjs     # into ~/Library/Application Support/Lernwerk/data/plugins/semester/dist (data kept)
 ```
 
 Then restart LearnHarness (0.7.0 or newer) and enable **Semester** in Settings → Community plugins.
